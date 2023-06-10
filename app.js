@@ -3,6 +3,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoute from "./routes/auth.js";
+import usersRoute from "./routes/users.js";
+import hotelsRoute from "./routes/hotels.js";
+import roomsRoute from "./routes/rooms.js";
 
 const app = express();
 dotenv.config();
@@ -18,18 +22,20 @@ const connect = async () => {
     }
 }
 
-mongoose.connection.on("disconnected", ()=>{
+mongoose.connection.on("disconnected", () => {
     console.log("mongoDB disconnected!");
 });
 
-mongoose.connection.on("Connected", ()=>{
+mongoose.connection.on("Connected", () => {
     console.log("mongoDB connected!")
 });
 
-// api
-app.get("/", (req, res)=>{
-    res.status(200).send("hello homepage!");
-})
+// middleware
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/hotels", hotelsRoute);
+app.use("/api/rooms", roomsRoute);
+
 
 app.listen(PORT, (req, res) => {
     try {
