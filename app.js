@@ -26,6 +26,11 @@ mongoose.connection.on("Connected", ()=>{
     console.log("mongoDB connected!")
 });
 
+// api
+app.get("/", (req, res)=>{
+    res.status(200).send("hello homepage!");
+})
+
 app.listen(PORT, (req, res) => {
     try {
         connect();//call mogodb function
